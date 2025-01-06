@@ -70,7 +70,7 @@ Limitations:
 The prediction depends on training data and might not be 100% accurate.
 Always double-check predictions with credible sources.
 
-the structure should look like this:
+the structure should look like this(view this in code format to understand properly):
 
 Fake-News-Detection/
 ├── app.py
