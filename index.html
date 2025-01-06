@@ -1,0 +1,97 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake News Detector</title>
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <style>
+        /* CSS for the "Developed by" text */
+        .developer-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px; /* Increased font size */
+            color: white; /* Set text color to white */
+            font-weight: normal; /* Make the text bold */
+            background-color: rgba(0, 0, 0, 0.5); /* Optional: makes text more visible */
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Title -->
+        <h1 id="title">Fake News Detection</h1>
+
+        <!-- Form for input -->
+        <form method="POST" action="/predict">
+            <!-- News input area -->
+            <textarea id="news-input" name="news" rows="8" cols="60" placeholder="Enter the news text here..."></textarea>
+            <br>
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="button" class="btn speak-btn" onclick="startSpeechRecognition()">🎤 Speak</button>
+                <button type="submit" class="btn check-btn">Check</button>
+            </div>
+        </form>
+
+        <!-- Display Errors -->
+        {% if error %}
+        <div class="error-msg">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- Display Prediction Results -->
+        {% if prediction is not none %}
+            <div class="prediction-box">
+                <h2 class="result">Prediction: {{ prediction }}</h2>
+                <h3>Confidence Score: {{ confidence }}%</h3>
+            </div>
+
+            <!-- Highlighted Suspicious Words -->
+            {% if highlights %}
+                <h3 class="highlight-title">Suspicious Words:</h3>
+                <div class="highlight-container">
+                    {% for word in highlights %}
+                        <span class="highlight">{{ word }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <!-- "Developed by" text in the top-right corner -->
+    <div class="developer-info">
+        Developed by Danish Baigh
+    </div>
+
+    <!-- JavaScript for Speech Recognition -->
+    <script>
+        function startSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("Speech Recognition is not supported in this browser.");
+                return;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+
+            recognition.start();
+
+            recognition.onresult = function (event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById("news-input").value = transcript;
+            };
+
+            recognition.onerror = function (event) {
+                alert("Speech recognition error: " + event.error);
+            };
+        }
+    </script>
+</body>
+</html>
