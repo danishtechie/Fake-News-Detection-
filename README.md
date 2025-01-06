@@ -70,6 +70,28 @@ Limitations:
 The prediction depends on training data and might not be 100% accurate.
 Always double-check predictions with credible sources.
 
+the structure should look like this:
+
+Fake-News-Detection/
+├── app.py
+├── models/
+│   ├── fake_news_model.pkl
+│   ├── vectorizer.pkl
+├── src/
+│   ├── preprocessing.py
+│   ├── model_utils.py
+│   ├── speech_to_text.py
+├── templates/
+│   ├── index.html
+│   ├── error.html (Optional)
+├── static/
+│   ├── style.css
+│   ├── logo.png (Optional)
+├── data/
+│   ├── dataset.csv
+│   ├── preprocessed_data.csv
+
+
 Developer Information
 Name: Danish Maqbool
 Contact: danishannu1111@gmail.com
